@@ -12,8 +12,14 @@ class TodoListTableViewController: UITableViewController {
 
     var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogorgon"]
     
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
 
     }
 
@@ -60,6 +66,7 @@ class TodoListTableViewController: UITableViewController {
             if let newEntry = textField.text {
                 if newEntry != "" {
                     self.itemArray.append(newEntry)
+                    self.defaults.set(self.itemArray, forKey: "TodoListArray")
                 }
             }
             
