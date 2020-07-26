@@ -20,7 +20,7 @@ class TodoListTableViewController: UITableViewController {
 
     }
 
-    // MARK: - Table view data source
+    // MARK: - TableView data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
@@ -43,9 +43,11 @@ class TodoListTableViewController: UITableViewController {
     // MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
         saveItems()
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -95,8 +97,7 @@ class TodoListTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func loadItems() {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItems(_ request: NSFetchRequest<Item> = Item.fetchRequest()) {
         
         do {
             itemArray = try context.fetch(request)
@@ -104,8 +105,24 @@ class TodoListTableViewController: UITableViewController {
             print("Error fetching data from context \(error)")
         }
     }
+    
 }
 
+// MARK: - Search Bar Methods
 
+extension TodoListTableViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+ 
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(request)
+        
+    }
+    
+}
 
 
