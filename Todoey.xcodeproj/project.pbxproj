@@ -97,8 +97,8 @@
 		F4EF7BE724C9DA64008B3F83 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				F4F7FCC424D064E300D2DA45 /* Item.swift */,
 				F4F7FCC624D064F100D2DA45 /* Category.swift */,
+				F4F7FCC424D064E300D2DA45 /* Item.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
