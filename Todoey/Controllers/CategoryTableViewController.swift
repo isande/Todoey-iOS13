@@ -78,6 +78,24 @@ class CategoryTableViewController: UITableViewController {
         
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if let deletion = categories?[indexPath.row] {
+                do {
+                    try realm.write {
+                        realm.delete(deletion)
+                    }
+                } catch {
+                    print("Error deleting category: \(error)")
+                }
+                
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        }
+    }
+
+    
+    
     // MARK: - Add New Categories
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
